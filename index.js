@@ -18,7 +18,7 @@ const connection = async () => {
 }
 
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "https://thebrandwick-auth-app.vercel.app"
 }))
 
 app.use("/api", userRouter)
