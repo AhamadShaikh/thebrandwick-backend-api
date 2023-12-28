@@ -18,7 +18,7 @@ const connection = async () => {
 }
 
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: "https://thebrandwick-auth-api.onrender.com"
 }))
 
 app.use("/api", userRouter)
