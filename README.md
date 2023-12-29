@@ -6,10 +6,6 @@ This repository contains the code for a basic user authentication API built usin
 
 Features
 
-Installation
-
-Usage
-
 API Endpoints
 
 **Features**
