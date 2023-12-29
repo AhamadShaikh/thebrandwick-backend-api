@@ -3,15 +3,14 @@
 This repository contains the code for a basic user authentication API built using Node.js, Express, MongoDB (assumed as the database), and JSON Web Tokens (JWT) for user authentication. The API provides endpoints for user registration and login.
 
 **Table of Contents**
+
 Features
+
 Installation
+
 Usage
+
 API Endpoints
-Dependencies
-Configuration
-Security Considerations
-Contributing
-License
 
 **Features**
 1. User Registration: Allows users to register with a unique email and securely store their password using bcrypt for hashing.
