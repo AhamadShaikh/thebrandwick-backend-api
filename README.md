@@ -19,8 +19,11 @@ License
 3. JWT Authentication: Generates a JSON Web Token upon successful login, which can be used for subsequent authorized requests. Also, includes a refresh token for extended authentication.
 
 **API Endpoints**
+
 **User Registration**
+
 **Endpoint: POST /register**
+
 Request Body:
 {
   "name":"xyz",
@@ -30,8 +33,10 @@ Request Body:
   "password": "securepassword"  
 }
 
-**User Login
-Endpoint: POST /login**
+**User Login**
+
+**Endpoint: POST /login**
+
 Request Body:
 {
   "email": "user@example.com",
