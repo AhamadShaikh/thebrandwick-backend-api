@@ -41,12 +41,9 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-       let tokenKey = process.env.TOKEN_KEY
-       let rTokenKey = process.env.RTOKEN_KEY
+        const token = jwt.sign({ userId: existingUser._id, name: existingUser.username }, "ironman", { expiresIn: "2h" });
 
-        const token = jwt.sign({ userId: existingUser._id, name: existingUser.username }, tokenKey, { expiresIn: "2h" });
-
-        const refreshToken = jwt.sign({ userId: existingUser._id, name: existingUser.username }, rTokenKey, { expiresIn: "5h" });
+        const refreshToken = jwt.sign({ userId: existingUser._id, name: existingUser.username }, "thanos", { expiresIn: "5h" });
 
         res.status(200).json({ message: "Login successful", token, refreshToken });
     } catch (error) {
