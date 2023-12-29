@@ -3,6 +3,8 @@ const User = require("../model/userModel");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config()
+const BlacklistToken = require("../model/blacklistToken")
 
 router.post("/register", async (req, res) => {
     try {
@@ -39,8 +41,9 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        const token = jwt.sign({ userId: existingUser._id, name: existingUser.username }, "ironman", { expiresIn: "2d" });
-        const refreshToken = jwt.sign({ userId: existingUser._id, name: existingUser.username }, "thanos", { expiresIn: "5d" });
+        const token = jwt.sign({ userId: existingUser._id, name: existingUser.username }, process.env.TOKEN_KEY, { expiresIn: "2h" });
+        
+        const refreshToken = jwt.sign({ userId: existingUser._id, name: existingUser.username }, process.env.RTOKEN_KEY, { expiresIn: "5h" });
 
         res.status(200).json({ message: "Login successful", token, refreshToken });
     } catch (error) {
@@ -48,4 +51,27 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ message: "Login failed" });
     }
 });
+
+router.post("/logout", async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+
+        if (!token) {
+            return res.status(400).json({ message: "Token not provided" });
+        }
+
+        const isTokenBlacklisted = await BlacklistToken.exists({ token });
+
+        if (isTokenBlacklisted) {
+            return res.status(400).json({ message: "Token has already been invalidated" });
+        }
+
+        await BlacklistToken.create({ token });
+        res.status(200).json({ message: "Logout successful" });
+    } catch (error) {
+        console.error("Logout failed:", error);
+        res.status(500).json({ message: "Logout failed" });
+    }
+});
+
 module.exports = router
